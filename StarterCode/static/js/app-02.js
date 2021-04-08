@@ -30,6 +30,4 @@ d3.json("samples.json").then((data) => {
   var demographics =  d3.select(".panel-body");
   console.log(demographics)
 
-  
-
 });
