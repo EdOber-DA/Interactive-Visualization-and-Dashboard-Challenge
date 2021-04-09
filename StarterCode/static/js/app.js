@@ -34,20 +34,55 @@ function updatePlotly() {
   
   // get demographic info
   var selectedDemo = data.metadata.filter(list => list.id === parseInt(selectID));
-  console.log(selectedDemo);
+  // console.log("selectedDemo");
+  //   console.log(selectedDemo);
   
   selectedList = selectedDemo[0];
+  console.log("selectedList");
   console.log(selectedList);
-  console.log(selectedList);
-  
+
+  // Select the demographics panel    
   var demographics =  d3.select(".panel-body");
   // console.log(demographics)
   
-  Object.keys(selectedList).forEach(function(key) {
+  // clear demographcs of any existing info
+  // first get how many rows to delete
+  var size = Object.keys(selectedList).length;
+  // console.log("items in the selectedList");
+  // console.log(size);
+
+  var elems = document.getElementsByTagName('h2');
+  console.log("Number of h2 elements");
+  console.log(elems);
+  console.log(elems.length)
+  
+  Object.keys(elems).reverse().forEach(function(key, i) {
+    if (i > -1) {
+      console.log(elems[key]);
+      elems[key].remove();
+    }
+  });
+
+
+
+ 
+// iterate through the rows, backwards from end to delete tr entries, but not the header (rowcount-1)
+
+
+// add the new rows  
+Object.keys(selectedList).forEach(function(key) {
     console.log(key + " " + selectedList[key]);
+    var cell = demographics.append("h2");
+    cell.text(key + ": " + selectedList[key]);    
+
     
   });
 
+  // var elems = document.getElementsByTagName('h2');
+  // console.log(elems);
+
+  // var cell = demographics.append("h1");
+  // cell.text("test");
 
  
   // selectDemo.forEach(([key, value]) => {
