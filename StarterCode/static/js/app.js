@@ -36,9 +36,20 @@ function updatePlotly() {
   var selectedDemo = data.metadata.filter(list => list.id === parseInt(selectID));
   console.log(selectedDemo);
   
-  var demographics =  d3.select(".panel-body");
-  console.log(demographics)
+  selectedList = selectedDemo[0];
+  console.log(selectedList);
+  console.log(selectedList);
   
+  var demographics =  d3.select(".panel-body");
+  // console.log(demographics)
+  
+  Object.keys(selectedList).forEach(function(key) {
+    console.log(key + " " + selectedList[key]);
+    
+  });
+
+
+ 
   // selectDemo.forEach(([key, value]) => {
   //   var row = demographics.append("h1");
   //   cell.text(value);
