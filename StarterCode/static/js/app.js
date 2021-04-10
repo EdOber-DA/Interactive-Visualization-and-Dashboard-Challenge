@@ -51,8 +51,8 @@ function updatePlotly() {
   // console.log("items in the selectedList");
   // console.log(size);
 
-  var elems = document.getElementsByTagName('h2');
-  console.log("Number of h2 elements");
+  var elems = document.getElementsByTagName('h6');
+  console.log("Number of h6 elements");
   console.log(elems);
   console.log(elems.length)
   
@@ -72,7 +72,7 @@ function updatePlotly() {
 // add the new rows  
 Object.keys(selectedList).forEach(function(key) {
     console.log(key + " " + selectedList[key]);
-    var cell = demographics.append("h2");
+    var cell = demographics.append("h6");
     cell.text(key + ": " + selectedList[key]);    
 
     
