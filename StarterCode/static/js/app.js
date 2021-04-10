@@ -3,8 +3,18 @@
 d3.json("samples.json").then((data) => {
     //  print a copy of the json for checking data
     console.log(data);
+ 
+    var otu_ids = data.samples[0].otu_ids.slice(0, 10);
+    console.log(otu_ids);
 
-    // Get a reference to the selection area
+    var otu_labels = data.samples[0].otu_labels.slice(0,10);
+    console.log(otu_labels);
+
+    var sample_values = data.samples[0].sample_values.slice(0,10);
+    console.log(sample_values);
+
+  
+  // Get a reference to the selection area
   var select = d3.select("select");
  
   // cycle through the names list of the json to create the dropdown
@@ -55,6 +65,10 @@ Object.keys(selectedList).forEach(function(key) {
 
     
   });
+
+  // var selectedPatient = data.samples.filter(list => list.id === parseInt(selectID));
+
+
 
   // Initialize x and y arrays
   // var x = [];
