@@ -1,4 +1,4 @@
-// Code to read samples.jsaon, set up dropdowns and generate plots from selected patient
+// Code to read samples.json, set up dropdowns and generate plots from selected patient
 // Read in the data
 d3.json("samples.json").then((data) => {
     //  print a copy of the json for checking data
@@ -56,37 +56,66 @@ Object.keys(selectedList).forEach(function(key) {
     cell.text(key + ": " + selectedList[key]);    
   });
 
-var samples_selected = data.samples.filter(list => list.id === selectID); //.otu_ids.slice(0, 10);
+// Pull off the samples information for this selected patient  
+var samples_selected = data.samples.filter(list => list.id === selectID); 
 // console.log(selectID);
 // console.log(data.samples[1].id);
-console.log(samples_selected);
+// console.log(samples_selected);
 
+// slice off the top 10 otu_ids for the bar chart 
 var otu_ids = samples_selected[0].otu_ids.slice(0, 10); 
-console.log(otu_ids);
+// console.log(otu_ids);
 
+// Need to add "OTU" prefix to each entry to avoid it being handled as numeric and scaling
+var otu_ids_w_prefix = []
+otu_ids.forEach(i => 
+{ var substring = otu_ids_w_prefix.push(`OTU ${i}`
+)});
+// console.log(otu_ids_w_prefix);
+
+// slice off the top 10 otu_lables for the hovertext
 var otu_labels = samples_selected[0].otu_labels.slice(0,10);
-console.log(otu_labels);
 
+// slice off the top 10 values for the bar length 
 var sample_values = samples_selected[0].sample_values.slice(0,10);
-console.log(sample_values);    
+// console.log(sample_values);  
+//********************** Bar Plot Code **************//
+  
+  // Trace1 for the bar chart Data
+  var trace1 = {
+    y: otu_ids_w_prefix, //data.map(row => row.greekSearchResults),
+    x: sample_values, //data.map(row => row.greekName),
+    text: otu_labels, //data.map(row => row.greekName),
+    type: "bar",
+    orientation: "h",
+    mode: 'markers',
+    marker: {
+      color: 'blue'
+    }
+  };
 
-  // Initialize x and y arrays
-  // var x = [];
-  // var y = [];
+  // data
+  var chartData = [trace1];
 
-  // if (dataset === 'dataset1') {
-  //   x = [1, 2, 3, 4, 5];
-  //   y = [1, 2, 4, 8, 16];
-  // }
+  // Apply the group bar mode to the layout, w reverse to stack from bottom up with least
+  var layout = {
+    title: "Top 10 OTUs",
+    yaxis :{autorange: "reversed"},
+    margin: {
+      l: 100,
+      r: 100,
+      t: 100,
+      b: 100
+    }
+  };
 
-  // else if (dataset === 'dataset2') {
-  //   x = [10, 20, 30, 40, 50];
-  //   y = [1, 10, 100, 1000, 10000];
-  // }
+  // Render the plot to the div tag with id "plot"
+  Plotly.newPlot("bar", chartData, layout);
+// ********************* Bar Plot Code **************//
 
-  // // Note the extra brackets around 'x' and 'y'
-  // Plotly.restyle("plot", "x", [x]);
-  // Plotly.restyle("plot", "y", [y]);
+// ********************* Bubble Plot Code **************//
+
+// ********************* Bubble Plot Code **************//
 }
 
 
