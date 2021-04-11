@@ -90,7 +90,8 @@ var sample_values = samples_selected[0].sample_values.slice(0,10);
     orientation: "h",
     mode: 'markers',
     marker: {
-      color: 'blue'
+      color: 'blue',
+      outerHeight: 250
     }
   };
 
@@ -101,12 +102,17 @@ var sample_values = samples_selected[0].sample_values.slice(0,10);
   var layout = {
     title: "Top 10 OTUs",
     yaxis :{autorange: "reversed"},
-    margin: {
-      l: 100,
-      r: 100,
-      t: 100,
-      b: 100
-    }
+    hoverlabel: {
+      bgcolor:"white",
+      font_size:16,
+      font_family:"Rockwell"}
+
+    //  margin: {
+    //   l: 30,
+    //   r: 30,
+    //   t: 30,
+    //   b: 30
+    // }
   };
 
   // Render the plot to the div tag with id "plot"
