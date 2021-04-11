@@ -4,16 +4,6 @@ d3.json("samples.json").then((data) => {
     //  print a copy of the json for checking data
     console.log(data);
  
-    var otu_ids = data.samples[0].otu_ids.slice(0, 10);
-    console.log(otu_ids);
-
-    var otu_labels = data.samples[0].otu_labels.slice(0,10);
-    console.log(otu_labels);
-
-    var sample_values = data.samples[0].sample_values.slice(0,10);
-    console.log(sample_values);
-
-  
   // Get a reference to the selection area
   var select = d3.select("select");
  
@@ -39,7 +29,9 @@ function updatePlotly() {
   
   // get demographic info for the patient selected 
   var selectedDemo = data.metadata.filter(list => list.id === parseInt(selectID));
-   
+  // console.log(selectedDemo);
+  
+
   // convert the selected info to a list
   selectedList = selectedDemo[0];
   
@@ -62,13 +54,21 @@ Object.keys(selectedList).forEach(function(key) {
     // console.log(key + " " + selectedList[key]);
     var cell = demographics.append("h6");
     cell.text(key + ": " + selectedList[key]);    
-
-    
   });
 
-  // var selectedPatient = data.samples.filter(list => list.id === parseInt(selectID));
+var samples_selected = data.samples.filter(list => list.id === selectID); //.otu_ids.slice(0, 10);
+// console.log(selectID);
+// console.log(data.samples[1].id);
+console.log(samples_selected);
 
+var otu_ids = samples_selected[0].otu_ids.slice(0, 10); 
+console.log(otu_ids);
 
+var otu_labels = samples_selected[0].otu_labels.slice(0,10);
+console.log(otu_labels);
+
+var sample_values = samples_selected[0].sample_values.slice(0,10);
+console.log(sample_values);    
 
   // Initialize x and y arrays
   // var x = [];
