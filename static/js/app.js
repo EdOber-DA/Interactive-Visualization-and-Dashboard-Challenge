@@ -16,13 +16,14 @@ d3.json("./data/samples.json").then((data) => {
 });
 
 // Seed the initial load with subject id = 940 and call the plots
+plotRun("940");
 
 
 // Call updatePlotly() when a change takes place to the DOM
-d3.selectAll("#selDataset").on("change", updatePlotly);
+d3.selectAll("#selDataset").on("change", selectData);
 
 // This function is called when a dropdown menu item is selected
-function updatePlotly() {
+function selectData() {
  
   // Use D3 to select the dropdown menu
   var dropdownMenu = d3.select("#selDataset");
@@ -30,34 +31,46 @@ function updatePlotly() {
   // Assign the value selected in the dropdown menu option to a variable
   var selectID = dropdownMenu.property("value");
   
-  // get demographic info for the patient selected 
-  var selectedDemo = data.metadata.filter(list => list.id === parseInt(selectID));
+  
+// Set the demographics and run the plots...for the selected subject!
+plotRun(selectID);
 
-  // convert the selected info to a list
-  selectedList = selectedDemo[0];
+}
+
+function plotRun(selectedSubject) {
+// get demographic info for the patient selected 
+var selectedDemo = data.metadata.filter(list => list.id === parseInt(selectedSubject));
+
+// convert the selected info to a list
+selectedList = selectedDemo[0];
+
+// if already data, need to clear demographcs of any existing info
+// 1st - Select the demographics panel so we can clear out any pre-existing items displayed     
+var demographics =  d3.select(".panel-body");
   
-  // if already data, need to clear demographcs of any existing info
-  // 1st - Select the demographics panel so we can clear out any pre-existing items displayed     
-  var demographics =  d3.select(".panel-body");
-    
-  // 2nd - get how many items exist that need to be to deleted, if "0" then will fall through
-  var elems = document.getElementsByTagName('h6');
-  
-  // 3rd - iterate through the items, backwards from end to delete previous h6 entries
-  Object.keys(elems).reverse().forEach(function(key, i) {
-    if (i > -1) {
-       elems[key].remove();
-    }
-  });
+// 2nd - get how many items exist that need to be to deleted, if "0" then will fall through
+var elems = document.getElementsByTagName('h6');
+
+// 3rd - iterate through the items, backwards from end to delete previous h6 entries
+Object.keys(elems).reverse().forEach(function(key, i) {
+  if (i > -1) {
+     elems[key].remove();
+  }
+});
 
 // now that the panel is clean, add the new items  
 Object.keys(selectedList).forEach(function(key) {
-    var cell = demographics.append("h6");
-    cell.text(key + ": " + selectedList[key]);    
-  });
+  var cell = demographics.append("h6");
+  cell.text(key + ": " + selectedList[key]);    
+});
+
+
+
+
+
 
 // Pull off the samples information for this selected patient that will be used in the graphs / charts / guage 
-var samples_selected = data.samples.filter(list => list.id === selectID); 
+var samples_selected = data.samples.filter(list => list.id === selectedSubject); 
 
 //********************** Bar Plot Code **************//
 // prep the data
@@ -98,7 +111,7 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
 // Apply the group bar mode to the layout, w reverse to stack from bottom up with least
   var bar_Layout = {
     title: {
-      text:`Top 10 OTUs for Test Subject ID No: ${selectID}`,
+      text:`Top 10 OTUs for Test Subject ID No: ${selectedSubject}`,
       font: {
         family: 'Times New Roman, serif',
         size: 24,
@@ -114,8 +127,10 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
 
   };
 
+  var config = {responsive: true}
+
   // Render the plot to the div tag with id "plot"
-  Plotly.newPlot("bar", bar_Data, bar_Layout);
+  Plotly.newPlot("bar", bar_Data, bar_Layout, config);
 // ********************* Bar Plot Code **************//
 
 // ********************* Bubble Plot Code **************//
@@ -154,14 +169,17 @@ var otu_labels = samples_selected[0].otu_labels;
     }]
   var bubble_layout = {
       title: {
-          text: `Test Subject No.: ${selectID}`,
+          text: `Test Subject No.: ${selectedSubject}`,
           font: {
               family: 'Times New Roman, serif',
               size: 24,
               color: 'black'
           }
   }}
-  Plotly.newPlot("bubble", bubble_Trace, bubble_layout)
+
+  var config2 = {responsive: true}
+
+  Plotly.newPlot("bubble", bubble_Trace, bubble_layout, config2)
 // ********************* Bubble Plot Code **************//
 
 //
