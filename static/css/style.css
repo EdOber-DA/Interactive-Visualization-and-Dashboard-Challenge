@@ -7,18 +7,6 @@ h1{
   font-weight: bold;
 }
 
-p{
-  font-family: 'Times New Roman', serif;
-  font-weight: bold;
-  color: #000;
-}
-
-a{
-  font-family: 'Times New Roman', serif;
-  font-weight: bold;
-  color: #000;
-}
-
 
 h3{
   font-family: 'Times New Roman', serif;
@@ -34,6 +22,22 @@ h6{
   font-family: 'Times New Roman', serif;
   font-weight: bold;
 }
+
+p{
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  color: #000;
+}
+
+a{
+  font-family: 'Times New Roman', serif;
+  font-weight: bold;
+  color: #000;
+}
+
+
+
+
 
 .jumbotron {
 background-color: wheat;

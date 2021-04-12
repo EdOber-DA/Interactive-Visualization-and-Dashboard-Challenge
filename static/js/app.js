@@ -99,10 +99,8 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
     orientation: "h",
     mode: 'markers',
     marker: {
-      color: 'coral'
-      // Height: 600,
-      // Width: 50
-    }
+    color: 'coral'
+     }
   };
 
 // data
@@ -118,7 +116,9 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
         color: 'black'
     },
     },
-    
+    paper_bgcolor:'wheat',
+    plot_bgcolor:'wheat',
+
     yaxis :{autorange: "reversed"},
     hoverlabel: {
       bgcolor:"pink",
@@ -175,7 +175,11 @@ var otu_labels = samples_selected[0].otu_labels;
               size: 24,
               color: 'black'
           }
-  }}
+        },
+      paper_bgcolor:'wheat',
+      plot_bgcolor:'wheat'
+    
+}
 
   var config2 = {responsive: true}
 
