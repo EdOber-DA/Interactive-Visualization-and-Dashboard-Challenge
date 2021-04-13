@@ -185,7 +185,7 @@ var otu_labels = samples_selected[0].otu_labels;
 // ********************* Bubble Plot Code **************//
 
 //********************* Gauge Chart ********************//
-var level = selectedList["wfreq"];
+var level = 9;
 
 // Trig to calc meter point
 var degrees = 180-(level)*20;
@@ -194,8 +194,6 @@ var degrees = 180-(level)*20;
 var radians = degrees * Math.PI / 180;
 var x = radius * Math.cos(radians);
 var y = radius * Math.sin(radians);
-
-
 console.log(x);
 console.log(y);
 
@@ -203,23 +201,18 @@ console.log(y);
 // Path: may have to change to create a better triangle
 // var mainPath = 'M -.0 -0.035 L .0 0.035 L ',
 var mainPath = 'M -.0 0.05 L .5 0.035 L ',
-     
-    EmptyPath = "",
-    append = "L .5 0.035 L 0.5 0 Z",
-    pathStart = 'M ';
-    pathX =  String(x+.5),
-     space = ' ',
-     pathY = String(y*1.8+.05);
-     
-     var path = EmptyPath.concat(pathStart,pathX,space,pathY,append);
 
-// var calcpath = mainPath.concat(pathX,space,pathY,pathEnd);
-// var path = "M 0.0 0.05  L .5 0.035 L 0.5 0 Z"; // 000 setting
+     pathX =  String(x),
+     space = ' ',
+     pathY = String(y),
+     pathEnd = ' Z';
+var calcpath = mainPath.concat(pathX,space,pathY,pathEnd);
+//var path = "M 0.0 0.05  L .5 0.035 L 0.5 0 Z"; // 000 setting
 // var path = "M 0.35 0.70 L .5 0.035 L 0.5 0 Z"; // 045 setting
-// var path = "M 0.5 0.95  L .5 0.035 L 0.5 0 Z"; // 090 setting
+var path = "M 0.5 0.95  L .5 0.035 L 0.5 0 Z"; // 090 setting
 // var path = "M 1.0 0.05  L .5 0.035 L 0.5 0 Z"; // 180 setting
 
-// console.log(calcpath);
+console.log(calcpath);
 console.log(path);
 
 var gauge_data = [{
