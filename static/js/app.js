@@ -107,7 +107,7 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
 // Apply the group bar mode to the layout, w reverse to stack from bottom up with least
   var bar_Layout = {
     title: {
-      text:`Top 10 OTUs for Test Subject ID No: ${selectedSubject}`,
+      text:`Top 10 OTUs for Test Subject Id: ${selectedSubject}`,
       font: {
         family: 'Times New Roman, serif',
         size: 24,
@@ -167,7 +167,7 @@ var otu_labels = samples_selected[0].otu_labels;
     }]
   var bubble_layout = {
       title: {
-          text: `Test Subject No.: ${selectedSubject}`,
+          text: `Test Subject Id: ${selectedSubject}`,
           font: {
               family: 'Times New Roman, serif',
               size: 24,
@@ -185,11 +185,19 @@ var otu_labels = samples_selected[0].otu_labels;
 // ********************* Bubble Plot Code **************//
 
 //********************* Gauge Chart ********************//
-if (selectedList["wfreq"] > -1) {
-  level = selectedList["wfreq"]
-}  else {selectedList["wfreq"] = 0;}
+check1 = 1;
+check2 = 1;
+if (selectedList["wfreq"] === null) { level = 0;}
+  else {level = selectedList["wfreq"] ;}
 
-console.log(selectedList["wfreq"]);
+    if (selectedList["wfreq"] === null) { check1 = 0;}
+
+
+
+console.log(check1);
+console.log(check2);
+
+// level = selectedList["wfreq"];
 
 // Trig to calc meter point
 var degrees = 180-(level)*20;
@@ -229,9 +237,9 @@ var mainPath = 'M -.0 0.05 L .5 0.035 L ',
 var gauge_data = [{
     type: "indicator",
     mode: "gauge+number",
-    value: selectedList["wfreq"],
+    value: level,
     title: { 
-      text: "Belly Button Washing Frequency <br> Scrubs per Week", 
+      text: `Belly Button Washing Frequency <br> Scrubs per Week Test Subject Id: ${selectedSubject}`, 
       font: { size: 24, color: "black",  family: 'Times New Roman, serif'} },
     // delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
     gauge: {

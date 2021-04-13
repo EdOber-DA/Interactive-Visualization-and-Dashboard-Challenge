@@ -32,12 +32,8 @@ p{
 a{
   font-family: 'Times New Roman', serif;
   font-weight: bold;
-  color: #000;
+  color: red;
 }
-
-
-
-
 
 .jumbotron {
 background-color: wheat;
@@ -54,8 +50,6 @@ border-color: red;
     border-color: red;
     }
   
-
-
 .panel {
   background-color: wheat;
   border-color: red;  
