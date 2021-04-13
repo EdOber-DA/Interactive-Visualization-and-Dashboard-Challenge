@@ -64,7 +64,7 @@ Object.keys(selectedList).forEach(function(key) {
   cell.text(key + ": " + selectedList[key]);    
 });
 
-console.log(selectedList["wfreq"]);
+// console.log(selectedList["wfreq"]);
 
 
 // Pull off the samples information for this selected patient that will be used in the graphs / charts / guage 
@@ -107,7 +107,7 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
 // Apply the group bar mode to the layout, w reverse to stack from bottom up with least
   var bar_Layout = {
     title: {
-      text:`Top 10 OTUs for Test Subject ID No: ${selectedSubject}`,
+      text:`Top 10 OTUs for Test Subject Id: ${selectedSubject}`,
       font: {
         family: 'Times New Roman, serif',
         size: 24,
@@ -167,7 +167,7 @@ var otu_labels = samples_selected[0].otu_labels;
     }]
   var bubble_layout = {
       title: {
-          text: `Test Subject No.: ${selectedSubject}`,
+          text: `Test Subject Id: ${selectedSubject}`,
           font: {
               family: 'Times New Roman, serif',
               size: 24,
@@ -185,7 +185,19 @@ var otu_labels = samples_selected[0].otu_labels;
 // ********************* Bubble Plot Code **************//
 
 //********************* Gauge Chart ********************//
-var level = 9;
+check1 = 1;
+check2 = 1;
+if (selectedList["wfreq"] === null) { level = 0;}
+  else {level = selectedList["wfreq"] ;}
+
+    if (selectedList["wfreq"] === null) { check1 = 0;}
+
+
+
+console.log(check1);
+console.log(check2);
+
+// level = selectedList["wfreq"];
 
 // Trig to calc meter point
 var degrees = 180-(level)*20;
@@ -194,37 +206,44 @@ var degrees = 180-(level)*20;
 var radians = degrees * Math.PI / 180;
 var x = radius * Math.cos(radians);
 var y = radius * Math.sin(radians);
-console.log(x);
-console.log(y);
+
+
+// console.log(x);
+// console.log(y);
 
 
 // Path: may have to change to create a better triangle
 // var mainPath = 'M -.0 -0.035 L .0 0.035 L ',
 var mainPath = 'M -.0 0.05 L .5 0.035 L ',
-
-     pathX =  String(x),
+     
+    EmptyPath = "",
+    append = "L .5 0.035 L 0.5 0 Z",
+    pathStart = 'M ';
+    pathX =  String(x+.5),
      space = ' ',
-     pathY = String(y),
-     pathEnd = ' Z';
-var calcpath = mainPath.concat(pathX,space,pathY,pathEnd);
-//var path = "M 0.0 0.05  L .5 0.035 L 0.5 0 Z"; // 000 setting
+     pathY = String(y*1.8+.05);
+     
+     var path = EmptyPath.concat(pathStart,pathX,space,pathY,append);
+
+// var calcpath = mainPath.concat(pathX,space,pathY,pathEnd);
+// var path = "M 0.0 0.05  L .5 0.035 L 0.5 0 Z"; // 000 setting
 // var path = "M 0.35 0.70 L .5 0.035 L 0.5 0 Z"; // 045 setting
-var path = "M 0.5 0.95  L .5 0.035 L 0.5 0 Z"; // 090 setting
+// var path = "M 0.5 0.95  L .5 0.035 L 0.5 0 Z"; // 090 setting
 // var path = "M 1.0 0.05  L .5 0.035 L 0.5 0 Z"; // 180 setting
 
-console.log(calcpath);
-console.log(path);
+// console.log(calcpath);
+// console.log(path);
 
 var gauge_data = [{
     type: "indicator",
     mode: "gauge+number",
-    value: selectedList["wfreq"],
+    value: level,
     title: { 
-      text: "Belly Button Washing Frequency", 
+      text: `Belly Button Washing Frequency <br> Scrubs per Week Test Subject Id: ${selectedSubject}`, 
       font: { size: 24, color: "black",  family: 'Times New Roman, serif'} },
     // delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
     gauge: {
-      axis: { range: [null, 9], tickwidth: 1, tickcolor: "black" },
+      axis: { range: [null, 9], tickwidth: 1, tickcolor: "black", tickmode: "linear", tick0: 0, dtic: 1 },
       bgcolor: "wheat",
       borderwidth: 2,
       bordercolor: "red",
@@ -253,7 +272,7 @@ var gauge_data = [{
 var gauge_layout = {
   width: 600,
   height: 357,
-  margin: { t: 35, r: 40, l: 25, b: 15 },
+  margin: { t:85, r: 40, l: 25, b: 20 },
   paper_bgcolor: "wheat",
   font: { color: "black", family: 'Times New Roman, serif', },
   shapes:[{

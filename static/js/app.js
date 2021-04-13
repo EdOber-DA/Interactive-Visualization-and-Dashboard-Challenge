@@ -1,8 +1,8 @@
 // Code to read samples.json, set up dropdowns and generate plots from selected patient
 // Read in the data
 d3.json("./data/samples.json").then((data) => {
-    //  print a copy of the json for checking data
-    console.log(data);
+    // print a copy of the json for checking data
+    // console.log(data);
  
   // Get a reference to the selection area
   var select = d3.select("select");
@@ -22,6 +22,14 @@ plotRun("940");
 // Call updatePlotly() when a change takes place to the DOM
 d3.selectAll("#selDataset").on("change", selectData);
 
+//**************************************************//
+// End of Main line code - now will be event driven
+//**************************************************//
+
+
+//**************************************************//
+// Event Driven Code
+//**************************************************//
 // This function is called when a dropdown menu item is selected
 function selectData() {
  
@@ -35,8 +43,14 @@ function selectData() {
 // Set the demographics and run the plots...for the selected subject!
 plotRun(selectID);
 
+// End of event driven process
+
 }
 
+
+//**************************************************//
+// Plotting Code - Demographics, Bar, Bubble, Gauge
+//**************************************************//
 function plotRun(selectedSubject) {
 // get demographic info for the patient selected 
 var selectedDemo = data.metadata.filter(list => list.id === parseInt(selectedSubject));
@@ -63,9 +77,6 @@ Object.keys(selectedList).forEach(function(key) {
   var cell = demographics.append("h6");
   cell.text(key + ": " + selectedList[key]);    
 });
-
-// console.log(selectedList["wfreq"]);
-
 
 // Pull off the samples information for this selected patient that will be used in the graphs / charts / guage 
 var samples_selected = data.samples.filter(list => list.id === selectedSubject); 
@@ -129,7 +140,7 @@ var t10_otu_labels = samples_selected[0].otu_labels.slice(0,10);
 
   // Render the plot to the div tag with id "plot"
   Plotly.newPlot("bar", bar_Data, bar_Layout, config);
-// ********************* Bar Plot Code **************//
+// ********************* End of Bar Plot Code **************//
 
 // ********************* Bubble Plot Code **************//
 // Pull ALL the values for the selected patient, no smecial handing needed
@@ -182,56 +193,50 @@ var otu_labels = samples_selected[0].otu_labels;
   var config2 = {responsive: true}
 
   Plotly.newPlot("bubble", bubble_Trace, bubble_layout, config2)
-// ********************* Bubble Plot Code **************//
+// ********************* End of Bubble Plot Code **************//
 
 //********************* Gauge Chart ********************//
-check1 = 1;
-check2 = 1;
+// first need to set the level correctly if null, level set to "0"
 if (selectedList["wfreq"] === null) { level = 0;}
   else {level = selectedList["wfreq"] ;}
 
-    if (selectedList["wfreq"] === null) { check1 = 0;}
-
-
-
-console.log(check1);
-console.log(check2);
-
-// level = selectedList["wfreq"];
-
-// Trig to calc meter point
+// Trig to calc meter point - 9 segments, 180 degrees...so 20 degrees each
 var degrees = 180-(level)*20;
 //alert(degrees);
      radius = .5;
 var radians = degrees * Math.PI / 180;
+// calculate the trig settings for the angles
 var x = radius * Math.cos(radians);
 var y = radius * Math.sin(radians);
 
 
-// console.log(x);
-// console.log(y);
+// Created SVG Path for the needle: adjusted for the shifting to overlay correctly on the gauge
+// Did some trigonemtric calculations to get this correct... 
 
-
-// Path: may have to change to create a better triangle
-// var mainPath = 'M -.0 -0.035 L .0 0.035 L ',
-var mainPath = 'M -.0 0.05 L .5 0.035 L ',
-     
+// Calculations for the needle to be drawn
+// create empty path to start     
     EmptyPath = "",
+// These setting do not change for end of path    
     append = "L .5 0.035 L 0.5 0 Z",
+// String together the settings for the beginning of the path    
     pathStart = 'M ';
+// Shift x to right to accommodate gauge    
     pathX =  String(x+.5),
+// space between next setting    
      space = ' ',
+// need to account for proper length of the needle from 0 to .95
+// max y = .5  giving .95
+// min y = .0  giving .05      
      pathY = String(y*1.8+.05);
-     
+// string it together     
      var path = EmptyPath.concat(pathStart,pathX,space,pathY,append);
 
-// var calcpath = mainPath.concat(pathX,space,pathY,pathEnd);
-// var path = "M 0.0 0.05  L .5 0.035 L 0.5 0 Z"; // 000 setting
-// var path = "M 0.35 0.70 L .5 0.035 L 0.5 0 Z"; // 045 setting
-// var path = "M 0.5 0.95  L .5 0.035 L 0.5 0 Z"; // 090 setting
-// var path = "M 1.0 0.05  L .5 0.035 L 0.5 0 Z"; // 180 setting
-
-// console.log(calcpath);
+// Leaving these in as part of the testing to get the algorithm to work
+// var testpath = "M 0.0 0.05  L .5 0.035 L 0.5 0 Z"; // 000 setting
+// var testpath = "M 0.35 0.70 L .5 0.035 L 0.5 0 Z"; // 045 setting
+// var testpath = "M 0.5 0.95  L .5 0.035 L 0.5 0 Z"; // 090 setting
+// var testpath = "M 1.0 0.05  L .5 0.035 L 0.5 0 Z"; // 180 setting
+// console.log(testpath);
 // console.log(path);
 
 var gauge_data = [{
@@ -241,8 +246,7 @@ var gauge_data = [{
     title: { 
       text: `Belly Button Washing Frequency <br> Scrubs per Week Test Subject Id: ${selectedSubject}`, 
       font: { size: 24, color: "black",  family: 'Times New Roman, serif'} },
-    // delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
-    gauge: {
+      gauge: {
       axis: { range: [null, 9], tickwidth: 1, tickcolor: "black", tickmode: "linear", tick0: 0, dtic: 1 },
       bgcolor: "wheat",
       borderwidth: 2,
@@ -260,11 +264,6 @@ var gauge_data = [{
         { range: [8,9], color: "#8b4513" }
        
       ]
-      // threshold: {
-      //   line: { color: "red", width: 4 },
-      //   thickness: 0.75,
-      //   value: 490
-      // }
     }
   }
 ];
@@ -290,10 +289,8 @@ var config3 = {responsive: true}
 
 Plotly.newPlot('gauge1', gauge_data, gauge_layout, config3);
 
-//*******************************************************//
-//************Sample Gauge*******************************//
+//***************End of Gauge Code****************************************//
 
-//*******************************************************//
 }
 
 
