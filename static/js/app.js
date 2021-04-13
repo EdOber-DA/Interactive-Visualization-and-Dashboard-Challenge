@@ -186,7 +186,9 @@ var otu_labels = samples_selected[0].otu_labels;
           }
         },
       paper_bgcolor:'wheat',
-      plot_bgcolor:'wheat'
+      plot_bgcolor:'wheat',
+      height: 750,
+  margin: { t:85, r: 40, l: 25, b: 20 }
     
 }
 
