@@ -64,7 +64,7 @@ Object.keys(selectedList).forEach(function(key) {
   cell.text(key + ": " + selectedList[key]);    
 });
 
-console.log(selectedList["wfreq"]);
+// console.log(selectedList["wfreq"]);
 
 
 // Pull off the samples information for this selected patient that will be used in the graphs / charts / guage 
@@ -185,7 +185,11 @@ var otu_labels = samples_selected[0].otu_labels;
 // ********************* Bubble Plot Code **************//
 
 //********************* Gauge Chart ********************//
-var level = selectedList["wfreq"];
+if (selectedList["wfreq"] > -1) {
+  level = selectedList["wfreq"]
+}  else {selectedList["wfreq"] = 0;}
+
+console.log(selectedList["wfreq"]);
 
 // Trig to calc meter point
 var degrees = 180-(level)*20;
@@ -196,8 +200,8 @@ var x = radius * Math.cos(radians);
 var y = radius * Math.sin(radians);
 
 
-console.log(x);
-console.log(y);
+// console.log(x);
+// console.log(y);
 
 
 // Path: may have to change to create a better triangle
@@ -220,18 +224,18 @@ var mainPath = 'M -.0 0.05 L .5 0.035 L ',
 // var path = "M 1.0 0.05  L .5 0.035 L 0.5 0 Z"; // 180 setting
 
 // console.log(calcpath);
-console.log(path);
+// console.log(path);
 
 var gauge_data = [{
     type: "indicator",
     mode: "gauge+number",
     value: selectedList["wfreq"],
     title: { 
-      text: "Belly Button Washing Frequency", 
+      text: "Belly Button Washing Frequency <br> Scrubs per Week", 
       font: { size: 24, color: "black",  family: 'Times New Roman, serif'} },
     // delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
     gauge: {
-      axis: { range: [null, 9], tickwidth: 1, tickcolor: "black" },
+      axis: { range: [null, 9], tickwidth: 1, tickcolor: "black", tickmode: "linear", tick0: 0, dtic: 1 },
       bgcolor: "wheat",
       borderwidth: 2,
       bordercolor: "red",
@@ -260,7 +264,7 @@ var gauge_data = [{
 var gauge_layout = {
   width: 600,
   height: 357,
-  margin: { t: 35, r: 40, l: 25, b: 15 },
+  margin: { t:85, r: 40, l: 25, b: 20 },
   paper_bgcolor: "wheat",
   font: { color: "black", family: 'Times New Roman, serif', },
   shapes:[{
