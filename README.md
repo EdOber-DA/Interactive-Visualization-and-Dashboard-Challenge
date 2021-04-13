@@ -9,7 +9,7 @@ Interactive-Visualization-and-Dashboard-Challenge - Displays HTML page with drop
 
 Landing page for the assignment: https://edober-da.github.io/Interactive-Visualization-and-Dashboard-Challenge/
 
-* Included in this repository are 4 Folders: static with the css and javascript code, data with the input json, images used, and notes from the development.  
+* Included in this repository are 4 Folders: static with the css and JavaScript code, data with the input json, images used, and notes from the development.  
    
   * [Javascript and Style Sheet:](static) Contains the js and css subfolders for the code.  
   
@@ -31,10 +31,11 @@ Landing page for the assignment: https://edober-da.github.io/Interactive-Visuali
   * [CSS Styles:](static/css/style.css) Style sheet for the site. 
 
 
-* [Images for the site:](Images/BB_Diversity.jpg) Background image for the landing page.
+* [Background image for the site:](Images/BB_Diversity.jpg) Background image for the landing page. From the National Geographic site (see link on landing page)
 
 
 * [Data for the site:](data/samples.json) Data from the study. 
 
 
+* [Documentation:](Notes/Color-palette.xlsx) snippets from color palette used to decide the "skin tone" color scheme.  
    
